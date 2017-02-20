@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import collections
 
 assignments = []
@@ -10,11 +12,14 @@ def cross(a, b):
 # Global variables
 ROWS = 'ABCDEFGHI'
 COLS = '123456789'
-BOXES = cross(ROWS,     COLS)
+BOXES = cross(ROWS, COLS)
 ROW_UNITS = [cross(r, COLS) for r in ROWS]
 COLUMN_UNITS = [cross(ROWS, c) for c in COLS]
-SQUARE_UNITS = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
-UNITLIST = ROW_UNITS + COLUMN_UNITS + SQUARE_UNITS
+SQUARE_UNITS = [cross(rs, cs) for rs in ('ABC','DEF','GHI')
+                              for cs in ('123','456','789')]
+DIAGONALS = [[r+c for r, c in zip(ROWS, COLS)],
+             [r+c for r, c in zip(ROWS[-1::-1], COLS)]]
+UNITLIST = ROW_UNITS + COLUMN_UNITS + SQUARE_UNITS + DIAGONALS
 UNITS = dict((s, [u for u in UNITLIST if s in u]) for s in BOXES)
 PEERS = dict((s, set(sum(UNITS[s],[]))-set([s])) for s in BOXES)
 
@@ -62,7 +67,7 @@ def display(values):
     Args:
         values(dict): The sudoku in dictionary form
     """
-    width = 1+max(len(values[s]) for s in BOXES)
+    width = 1+max(len(v) for v in values.values())
     line = '+'.join(['-'*(width*3)]*3)
     for r in ROWS:
         print(''.join(values[r+c].center(width)+('|' if c in '36' else '')
@@ -86,8 +91,10 @@ def eliminate(values):
     for box, value in values.items():
         if len(value) == 1:
             for peer_box in PEERS[box]:
-                peer_value = values[peer_box].replace(value, '')
-                assign_value(values, peer_box, peer_value)
+                peer_value = values[peer_box]
+                if len(peer_value) > 1:
+                    peer_value = values[peer_box].replace(value, '')
+                    assign_value(values, peer_box, peer_value)
     return values
 
 
@@ -105,6 +112,8 @@ def only_choice(values):
         counter = collections.Counter()
         for box in boxes:
             counter.update(values[box])
+        if not counter.most_common():
+            continue
         digit, count = counter.most_common()[-1]
         if count > 1:
             continue
