@@ -22,9 +22,9 @@ def naked_twins(values):
     # Find all instances of naked twins
     # Eliminate the naked twins as possibilities for their peers
 
-def cross(A, B):
-    "Cross product of elements in A and elements in B."
-    pass
+def cross(a, b):
+    "Cross product of elements in a and elements in b."
+    return [s+t for s in a for t in b]
 
 def grid_values(grid):
     """
