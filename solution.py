@@ -1,5 +1,18 @@
 assignments = []
 
+class Global:
+    rows = 'ABCDEFGHI'
+    cols = '123456789'
+    boxes = cross(Global.rows, Global.cols)
+
+    row_units = [cross(r, Global.cols) for r in Global.rows]
+    column_units = [cross(Global.rows, c) for c in Global.cols]
+    square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
+    unitlist = Global.row_units + Global.column_units + Global.square_units
+    units = dict((s, [u for u in Global.unitlist if s in u]) for s in Global.boxes)
+    peers = dict((s, set(sum(Global.units[s],[]))-set([s])) for s in Global.boxes)
+
+
 def assign_value(values, box, value):
     """
     Please use this function to update your values dictionary!
@@ -34,9 +47,10 @@ def grid_values(grid):
     Returns:
         A grid in dictionary form
             Keys: The boxes, e.g., 'A1'
-            Values: The value in each box, e.g., '8'. If the box has no value, then the value will be '123456789'.
+            Values: The value in each box, e.g., '8'. If the box has no value,
+            then the value will be '123456789'.
     """
-    pass
+    return dict(zip(Global.boxes, (x if x != '.' else '123456789' for x in grid)))
 
 def display(values):
     """
