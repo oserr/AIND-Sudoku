@@ -1,5 +1,10 @@
 assignments = []
 
+def cross(a, b):
+    "Cross product of elements in a and elements in b."
+    return [s+t for s in a for t in b]
+
+
 class Global:
     rows = 'ABCDEFGHI'
     cols = '123456789'
@@ -23,6 +28,7 @@ def assign_value(values, box, value):
         assignments.append(values.copy())
     return values
 
+
 def naked_twins(values):
     """Eliminate values using the naked twins strategy.
     Args:
@@ -31,13 +37,9 @@ def naked_twins(values):
     Returns:
         the values dictionary with the naked twins eliminated from peers.
     """
-
     # Find all instances of naked twins
     # Eliminate the naked twins as possibilities for their peers
 
-def cross(a, b):
-    "Cross product of elements in a and elements in b."
-    return [s+t for s in a for t in b]
 
 def grid_values(grid):
     """
@@ -52,6 +54,7 @@ def grid_values(grid):
     """
     return dict(zip(Global.boxes, (x if x != '.' else '123456789' for x in grid)))
 
+
 def display(values):
     """
     Display the values as a 2-D grid.
@@ -65,6 +68,7 @@ def display(values):
                       for c in Global.cols))
         if r in 'CF': print(line)
     return
+
 
 def eliminate(values):
     """Eliminate values from peers of each box with a single value.
@@ -84,6 +88,7 @@ def eliminate(values):
                 peer_value = values[peer_box].replace(value, '')
                 assign_value(values, peer_box, peer_value)
     return values
+
 
 def only_choice(values):
     """Finalize all values that are the only choice for a unit.
@@ -108,9 +113,11 @@ def only_choice(values):
                 break
     return values
 
+
 def number_solved(values):
     """Compute the number of squares in the Sudoku puzzle that are solved."""
     return sum(1 for value in values.values() if len(value) == 1)
+
 
 def contains_empty_square(values):
     """Checks that Sudoku puzzle does not contain squares without numbers."""
@@ -118,6 +125,7 @@ def contains_empty_square(values):
         if not value:
             return True
     return False
+
 
 def reduce_puzzle(values):
     """Iterate eliminate() and only_choice().
@@ -141,6 +149,7 @@ def reduce_puzzle(values):
         num_solved_prev = num_solved_next
     return values
 
+
 def search(values):
     """Using depth-first search and propagation, try all possible values."""
     if reduce_puzzle(values) is False:
@@ -156,6 +165,7 @@ def search(values):
         attempt = search(new_sudoku)
         if attempt:
             return attempt
+
 
 def solve(grid):
     """
