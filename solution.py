@@ -108,8 +108,45 @@ def only_choice(values):
                 break
     return values
 
+def number_solved(values):
+    """Compute the number of squares in the Sudoku puzzle that are solved."""
+    return sum(1 for value in values.values() if len(value) == 1)
+
+def contains_empty_square(values):
+    """Checks that Sudoku puzzle does not contain squares without numbers."""
+    for value in values.values():
+        if not value:
+            return True
+    return False
+
 def reduce_puzzle(values):
-    pass
+    """Iterate eliminate() and only_choice().
+
+    If at some point, there is a box with no available values, return False. If
+    the sudoku is solved, return the sudoku. If after an iteration of both
+    functions, the sudoku remains the same, return the sudoku.
+
+    Input: A sudoku in dictionary form.
+    Output: The resulting sudoku in dictionary form.
+    """
+    while True:
+        # Check how many boxes have a determined value
+        num_solved = number_solved(values)
+
+        # Use the Eliminate Strategy
+        eliminate(values)
+
+        # Use the Only Choice Strategy
+        only_choice(values)
+
+        # If no new values were added, stop the loop.
+        if num_solved == number_solved(values):
+            break
+
+        # Sanity check, return False if there is a box with zero available values:
+        if contains_empty_square(values):
+            return False
+    return values
 
 def search(values):
     pass
