@@ -86,7 +86,27 @@ def eliminate(values):
     return values
 
 def only_choice(values):
-    pass
+    """Finalize all values that are the only choice for a unit.
+
+    Go through all the units, and whenever there is a unit with a value
+    that only fits in one box, assign the value to this box.
+
+    Input: Sudoku in dictionary form.
+    Output: Resulting Sudoku in dictionary form after filling in only choices.
+    """
+    for unit in Global.unitlist:
+        boxes = [box for box in unit if len(values[box]) > 1]
+        counter = collections.Counter()
+        for box in boxes:
+            counter.update(values[box])
+        digit, count = counter.most_common()[-1]
+        if count > 1:
+            continue
+        for box in boxes:
+            if digit in values[box]:
+                assign_value(values, box, digit)
+                break
+    return values
 
 def reduce_puzzle(values):
     pass
