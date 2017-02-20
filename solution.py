@@ -142,7 +142,20 @@ def reduce_puzzle(values):
     return values
 
 def search(values):
-    pass
+    """Using depth-first search and propagation, try all possible values."""
+    if reduce_puzzle(values) is False:
+        return False ## Failed earlier
+    if all(len(value) == 1 for value in values.values()):
+        return values ## Solved!
+    # Choose one of the unfilled squares with the fewest possibilities
+    _, box = min((len(v), b) for b, v in values.items() if len(v) > 1)
+    # Now use recurrence to solve each one of the resulting sudokus, and
+    for value in values[box]:
+        new_sudoku = values.copy()
+        new_sudoku[box] = value
+        attempt = search(new_sudoku)
+        if attempt:
+            return attempt
 
 def solve(grid):
     """
