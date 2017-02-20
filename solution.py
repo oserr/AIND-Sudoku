@@ -1,3 +1,5 @@
+import collections
+
 assignments = []
 
 def cross(a, b):
