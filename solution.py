@@ -130,20 +130,11 @@ def reduce_puzzle(values):
     Output: The resulting sudoku in dictionary form.
     """
     while True:
-        # Check how many boxes have a determined value
         num_solved = number_solved(values)
-
-        # Use the Eliminate Strategy
         eliminate(values)
-
-        # Use the Only Choice Strategy
         only_choice(values)
-
-        # If no new values were added, stop the loop.
         if num_solved == number_solved(values):
             break
-
-        # Sanity check, return False if there is a box with zero available values:
         if contains_empty_square(values):
             return False
     return values
