@@ -67,7 +67,23 @@ def display(values):
     return
 
 def eliminate(values):
-    pass
+    """Eliminate values from peers of each box with a single value.
+
+    Go through all the boxes, and whenever there is a box with a single value,
+    eliminate this value from the set of values of all its peers. Note this
+    has the side effect of modifying the dictionary passed in.
+
+    Args:
+        values: Sudoku in dictionary form.
+    Returns:
+        Resulting Sudoku in dictionary form after eliminating values.
+    """
+    for box, value in values.items():
+        if len(value) == 1:
+            for peer_box in Global.peers[box]:
+                peer_value = values[peer_box].replace(value, '')
+                assign_value(values, peer_box, peer_value)
+    return values
 
 def only_choice(values):
     pass
