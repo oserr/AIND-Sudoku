@@ -129,14 +129,16 @@ def reduce_puzzle(values):
     Input: A sudoku in dictionary form.
     Output: The resulting sudoku in dictionary form.
     """
+    num_solved_prev = number_solved(values)
     while True:
-        num_solved = number_solved(values)
         eliminate(values)
         only_choice(values)
-        if num_solved == number_solved(values):
+        num_solved_next = number_solved(values)
+        if num_solved_prev == num_solved_next:
             break
         if contains_empty_square(values):
             return False
+        num_solved_prev = num_solved_next
     return values
 
 def search(values):
