@@ -5,17 +5,16 @@ def cross(a, b):
     return [s+t for s in a for t in b]
 
 
-class Global:
-    rows = 'ABCDEFGHI'
-    cols = '123456789'
-    boxes = cross(Global.rows, Global.cols)
-
-    row_units = [cross(r, Global.cols) for r in Global.rows]
-    column_units = [cross(Global.rows, c) for c in Global.cols]
-    square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
-    unitlist = Global.row_units + Global.column_units + Global.square_units
-    units = dict((s, [u for u in Global.unitlist if s in u]) for s in Global.boxes)
-    peers = dict((s, set(sum(Global.units[s],[]))-set([s])) for s in Global.boxes)
+# Global variables
+ROWS = 'ABCDEFGHI'
+COLS = '123456789'
+BOXES = cross(ROWS,     COLS)
+ROW_UNITS = [cross(r, COLS) for r in ROWS]
+COLUMN_UNITS = [cross(ROWS, c) for c in COLS]
+SQUARE_UNITS = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
+UNITLIST = ROW_UNITS + COLUMN_UNITS + SQUARE_UNITS
+UNITS = dict((s, [u for u in UNITLIST if s in u]) for s in BOXES)
+PEERS = dict((s, set(sum(UNITS[s],[]))-set([s])) for s in BOXES)
 
 
 def assign_value(values, box, value):
@@ -52,7 +51,7 @@ def grid_values(grid):
             Values: The value in each box, e.g., '8'. If the box has no value,
             then the value will be '123456789'.
     """
-    return dict(zip(Global.boxes, (x if x != '.' else '123456789' for x in grid)))
+    return dict(zip(BOXES, (x if x != '.' else '123456789' for x in grid)))
 
 
 def display(values):
@@ -61,11 +60,11 @@ def display(values):
     Args:
         values(dict): The sudoku in dictionary form
     """
-    width = 1+max(len(values[s]) for s in Global.boxes)
+    width = 1+max(len(values[s]) for s in BOXES)
     line = '+'.join(['-'*(width*3)]*3)
-    for r in Global.rows:
+    for r in ROWS:
         print(''.join(values[r+c].center(width)+('|' if c in '36' else '')
-                      for c in Global.cols))
+                      for c in COLS))
         if r in 'CF': print(line)
     return
 
@@ -84,7 +83,7 @@ def eliminate(values):
     """
     for box, value in values.items():
         if len(value) == 1:
-            for peer_box in Global.peers[box]:
+            for peer_box in PEERS[box]:
                 peer_value = values[peer_box].replace(value, '')
                 assign_value(values, peer_box, peer_value)
     return values
@@ -99,7 +98,7 @@ def only_choice(values):
     Input: Sudoku in dictionary form.
     Output: Resulting Sudoku in dictionary form after filling in only choices.
     """
-    for unit in Global.unitlist:
+    for unit in UNITLIST:
         boxes = [box for box in unit if len(values[box]) > 1]
         counter = collections.Counter()
         for box in boxes:
@@ -176,6 +175,7 @@ def solve(grid):
     Returns:
         The dictionary representation of the final sudoku grid. False if no solution exists.
     """
+
 
 if __name__ == '__main__':
     diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
