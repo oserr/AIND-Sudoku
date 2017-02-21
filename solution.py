@@ -172,7 +172,7 @@ def search(values):
         return values ## Solved!
     # Choose one of the unfilled squares with the fewest possibilities
     _, box = min((len(v), b) for b, v in values.items() if len(v) > 1)
-    # Now use recurrence to solve each one of the resulting sudokus, and
+    # Now use recurrence to solve each one of the resulting sudokus
     for value in values[box]:
         new_sudoku = values.copy()
         new_sudoku[box] = value
@@ -182,13 +182,15 @@ def search(values):
 
 
 def solve(grid):
-    """
-    Find the solution to a Sudoku grid.
+    """Find the solution to a Sudoku grid.
+
     Args:
         grid(string): a string representing a sudoku grid.
-            Example: '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
+        Example: 2.............62....1....7...6..8...3...
+                 9...7...6..4...4....8....52.............3
     Returns:
-        The dictionary representation of the final sudoku grid. False if no solution exists.
+        The dictionary representation of the final sudoku grid. False if no
+        solution exists.
     """
     values = grid_values(grid)
     return search(values)
