@@ -51,3 +51,8 @@ The data consists of a text file of diagonal sudokus for you to solve.
 
 [1]: https://www.continuum.io/downloads
 [2]: http://www.pygame.org/download.shtml
+
+### Credit
+
+A lot of the code in `solution.py` is in whole or partially from code used in
+the presentation slides for _Solving a Sudoku with AI_.
