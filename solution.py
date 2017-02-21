@@ -204,5 +204,7 @@ if __name__ == '__main__':
         visualize_assignments(assignments)
     except SystemExit:
         pass
+    except KeyboardInterrupt:
+        pass
     except:
-        print('We could not visualize your board due to a pygame issue. Not a problem! It is not a requirement.')
+        print('We could not visualize your board due to a pygame issue.')
