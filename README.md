@@ -3,11 +3,17 @@
 
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
-A: *Student should provide answer here*
+A: For each unit, we find pairs of squares that have the same pair of digits,
+and then remove these two digits from other squres in the unit. If one or more
+digits are removed from a square, then the square's new representation may yield
+a constraint that can be applied to other squares, and thus constraints are
+propagated.
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: *Student should provide answer here*
+A: We apply one or more constraints to each unit, which may affect squares in
+the unit. Squares that are udpated may thus yield constraints that can be
+applied to ther units and squares.
 
 ### Install
 
