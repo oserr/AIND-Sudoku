@@ -93,7 +93,7 @@ def eliminate(values):
             for peer_box in PEERS[box]:
                 peer_value = values[peer_box]
                 if len(peer_value) > 1:
-                    peer_value = values[peer_box].replace(value, '')
+                    peer_value = peer_value.replace(value, '')
                     assign_value(values, peer_box, peer_value)
     return values
 
@@ -108,19 +108,10 @@ def only_choice(values):
     Output: Resulting Sudoku in dictionary form after filling in only choices.
     """
     for unit in UNITLIST:
-        boxes = [box for box in unit if len(values[box]) > 1]
-        counter = collections.Counter()
-        for box in boxes:
-            counter.update(values[box])
-        if not counter.most_common():
-            continue
-        digit, count = counter.most_common()[-1]
-        if count > 1:
-            continue
-        for box in boxes:
-            if digit in values[box]:
-                assign_value(values, box, digit)
-                break
+        for digit in COLS:
+            dplaces = [box for box in unit if digit in values[box]]
+            if len(dplaces) == 1:
+                assign_value(values, dplaces[0], digit)
     return values
 
 
