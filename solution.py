@@ -154,6 +154,7 @@ def reduce_puzzle(values):
     while True:
         eliminate(values)
         only_choice(values)
+        naked_twins(values)
         num_solved_next = number_solved(values)
         if num_solved_prev == num_solved_next:
             break
