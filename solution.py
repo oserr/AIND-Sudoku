@@ -53,9 +53,9 @@ def naked_twins(values):
         twins = [(d, b) for d, b in twins.items() if len(b) == 2]
         if not twins:
             continue
-        for digits, boxes in twins:
+        for (d1, d2), boxes in twins:
             for box in (set(unit) - set(boxes)):
-                value = values[box].replace(digits[0], '').replace(digits[1], '')
+                value = values[box].replace(d1, '').replace(d2, '')
                 assign_value(values, box, value)
     return values
 
@@ -104,10 +104,8 @@ def eliminate(values):
     for box, value in values.items():
         if len(value) == 1:
             for peer_box in PEERS[box]:
-                peer_value = values[peer_box]
-                if len(peer_value) > 1:
-                    peer_value = peer_value.replace(value, '')
-                    assign_value(values, peer_box, peer_value)
+                peer_value = values[peer_box].replace(value, '')
+                assign_value(values, peer_box, peer_value)
     return values
 
 
