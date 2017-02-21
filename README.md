@@ -54,5 +54,5 @@ The data consists of a text file of diagonal sudokus for you to solve.
 
 ### Credit
 
-A lot of the code in `solution.py` is in whole or partially from code used in
-the presentation slides for _Solving a Sudoku with AI_.
+A lot of the code in `solution.py` is taken in whole, or partially, from code
+used in the presentation slides for _Solving a Sudoku with AI_.
